@@ -10,17 +10,17 @@ func NewQueue() *Queue {
 	return q
 }
 
-func (q *Queue) Push(v interface{}) {
-	q.list = append(q.list, v)
+func (q *Queue) Push(x interface{}) {
+	q.list = append(q.list, x)
 }
 
 func (q *Queue) Pop() interface{} {
 	if len(q.list) == 0 {
 		return nil
 	}
-	v := q.list[0]
+	x := q.list[0]
 	q.list = q.list[1:]
-	return v
+	return x
 }
 
 func (q *Queue) Len() int {
@@ -36,4 +36,17 @@ func (q *Queue) Front() interface{} {
 		return nil
 	}
 	return q.list[0]
+}
+
+func (q *Queue) Contains(x interface{}) bool {
+	for _, v := range q.list {
+		if v == x {
+			return true
+		}
+	}
+	return false
+}
+
+func (q *Queue) Traverse() []interface{} {
+	return q.list
 }
