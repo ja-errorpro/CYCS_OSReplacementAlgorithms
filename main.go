@@ -37,7 +37,7 @@ func main() {
 	fmt.Print("Please enter File Name (eg. input1 、 input1.txt) : ")
 	fmt.Scanln(&inputFileName)
 
-	method, pageFrameNumber, pageReferenceSequence := ReadFile(inputFileName)
+	/*method, pageFrameNumber, pageReferenceSequence := ReadFile(inputFileName)
 
 	switch method {
 	case "1":
@@ -48,6 +48,6 @@ func main() {
 	case "6":
 	default:
 		log.Fatal("Invalid method")
-	}
+	}*/
 
 }

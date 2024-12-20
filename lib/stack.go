@@ -4,7 +4,7 @@ type Stack struct {
 	list []interface{}
 }
 
-func New() *Stack {
+func NewStack() *Stack {
 	s := new(Stack)
 	s.list = make([]interface{}, 0)
 	return s
