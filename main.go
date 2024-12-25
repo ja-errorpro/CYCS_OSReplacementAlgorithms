@@ -63,7 +63,9 @@ func main() {
 	case methods.LRU:
 		result = methods.LRU_Cache(pageFrameNumber, pageReferenceSequence)
 	case methods.LFU_FIFO:
+		result = methods.LFU_FIFO_Cache(pageFrameNumber, pageReferenceSequence)
 	case methods.MFU:
+		result = methods.MFU_FIFO_Cache(pageFrameNumber, pageReferenceSequence)
 	case methods.LFU_LRU:
 	case methods.ALL:
 		result = methods.AllCache(pageFrameNumber, pageReferenceSequence)
