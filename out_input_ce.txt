@@ -79,14 +79,14 @@ Page Fault = 10  Page Replaces = 6  Page Frames = 4
 2	2654	F
 1	1265	F
 2	1265
-3	1365	F
-7	7136	F
-6	7136
-3	7136
-2	2713	F
-1	2713
-2	2713
-3	2713
+3	3165	F
+7	7316	F
+6	7316
+3	7316
+2	2731	F
+1	2731
+2	2731
+3	2731
 6	6271	F
 Page Fault = 12  Page Replaces = 8  Page Frames = 4
 

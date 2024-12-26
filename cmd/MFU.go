@@ -33,7 +33,9 @@ func MFU_FIFO_Cache(pageFrameNumber int, pageReference string) string {
 				maxIndex := FindMFUPage(lst)
 				if maxIndex != -1 { // Replace the most frequently used page
 					inlist[lst[maxIndex].Reference] = false
-					lst[maxIndex] = *page
+					// lst[maxIndex] = *page
+					lst = append(lst[:maxIndex], lst[maxIndex+1:]...)
+					lst = append(lst, *page)
 				} else { // FIFO
 					inlist[lst[0].Reference] = false
 					lst = lst[1:]
