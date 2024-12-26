@@ -11,11 +11,10 @@ If the frequency of a page is the same, then use FIFO to replace the page.
 */
 func MFU_FIFO_Cache(pageFrameNumber int, pageReference string) string {
 
-	result := "--------------Most Frequently Used Page Replacement-----------------------\n"
+	result := "--------------Most Frequently Used Page Replacement -----------------------\n"
 
 	lst := []lib.Page{}
 	inlist := make(map[byte]bool) // key: page reference, value: is in the page frame
-	// history := make(map[byte]*lib.Page) // key: page reference, value: page
 
 	pageFaultCount := 0
 	pageReplaceCount := 0
@@ -24,15 +23,6 @@ func MFU_FIFO_Cache(pageFrameNumber int, pageReference string) string {
 		pageKey := pageReference[i]
 		page := lib.NewPage(pageKey)
 		pageFault := !inlist[pageKey]
-		/*if _, ok := history[pageKey]; !ok { // If this is new page
-			history[pageKey] = page
-		} else { // If this page has been referenced before
-			page = history[pageKey]
-			if pageFault {
-				page.Freq++
-				history[pageKey] = page
-			}
-		}*/
 
 		result += string(pageKey) + "\t"
 
@@ -70,10 +60,6 @@ func MFU_FIFO_Cache(pageFrameNumber int, pageReference string) string {
 
 		if pageFault {
 			result += "\tF"
-		}
-
-		for j := len(lst) - 1; j >= 0; j-- {
-			result += fmt.Sprintf(" %d", lst[j].Freq)
 		}
 
 		result += "\n"

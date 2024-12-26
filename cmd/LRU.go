@@ -15,7 +15,7 @@ func LRU_Cache(pageFrameNumber int, pageReference string) string {
 	result := "--------------LRU-----------------------\n"
 
 	lst := []lib.Page{}
-	hashMap := make(map[byte]bool) // key: page reference, value: is in the page frame
+	inlist := make(map[byte]bool) // key: page reference, value: is in the page frame
 
 	pageFaultCount := 0
 	pageReplaceCount := 0
@@ -23,18 +23,18 @@ func LRU_Cache(pageFrameNumber int, pageReference string) string {
 	for i := 0; i < len(pageReference); i++ {
 		pageKey := pageReference[i]
 		page := lib.NewPage(pageKey)
-		pageFault := !hashMap[pageKey]
+		pageFault := !inlist[pageKey]
 		result += string(pageKey) + "\t"
 
 		if pageFault {
 			pageFaultCount++
 			if len(lst) == pageFrameNumber {
 				pageReplaceCount++
-				hashMap[lst[0].Reference] = false
+				inlist[lst[0].Reference] = false
 				lst = lst[1:]
 			}
 			lst = append(lst, *page)
-			hashMap[pageKey] = true
+			inlist[pageKey] = true
 		} else {
 			for j, p := range lst {
 				if p.Reference == pageKey {

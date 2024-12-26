@@ -15,7 +15,6 @@ func LFU_FIFO_Cache(pageFrameNumber int, pageReference string) string {
 
 	lst := []lib.Page{}
 	inlist := make(map[byte]bool) // key: page reference, value: is in the page frame
-	// history := make(map[byte]*lib.Page) // key: page reference, value: page
 
 	pageFaultCount := 0
 	pageReplaceCount := 0
@@ -24,15 +23,6 @@ func LFU_FIFO_Cache(pageFrameNumber int, pageReference string) string {
 		pageKey := pageReference[i]
 		page := lib.NewPage(pageKey)
 		pageFault := !inlist[pageKey]
-		/*if _, ok := history[pageKey]; !ok { // If this is new page
-			history[pageKey] = page
-		} else { // If this page has been referenced before
-			page = history[pageKey]
-			if pageFault {
-				page.Freq++
-				history[pageKey] = page
-			}
-		}*/
 
 		result += string(pageKey) + "\t"
 
@@ -43,7 +33,9 @@ func LFU_FIFO_Cache(pageFrameNumber int, pageReference string) string {
 				minIndex := FindLFUPage(lst)
 				if minIndex != -1 {
 					inlist[lst[minIndex].Reference] = false
-					lst[minIndex] = *page
+					// lst[minIndex] = *page
+					lst = append(lst[:minIndex], lst[minIndex+1:]...)
+					lst = append(lst, *page)
 				} else {
 					inlist[lst[0].Reference] = false
 					lst = lst[1:]
@@ -78,6 +70,73 @@ func LFU_FIFO_Cache(pageFrameNumber int, pageReference string) string {
 	statics := fmt.Sprintf("Page Fault = %d  Page Replaces = %d  Page Frames = %d\n", pageFaultCount, pageReplaceCount, pageFrameNumber)
 	result += statics
 	return result
+}
+
+func LFU_LRU_Cache(pageFrameNumber int, pageReference string) string {
+
+	result := "--------------Least Frequently Used LRU Page Replacement-----------------------\n"
+
+	lst := []lib.Page{}
+	inlist := make(map[byte]bool) // key: page reference, value: is in the page frame
+
+	pageFaultCount := 0
+	pageReplaceCount := 0
+
+	for i := 0; i < len(pageReference); i++ {
+		pageKey := pageReference[i]
+		page := lib.NewPage(pageKey)
+		pageFault := !inlist[pageKey]
+		result += string(pageKey) + "\t"
+
+		if pageFault {
+			pageFaultCount++
+			if len(lst) == pageFrameNumber {
+				pageReplaceCount++
+				minIndex := FindLFUPage(lst)
+				if minIndex != -1 {
+					inlist[lst[minIndex].Reference] = false
+					// lst[minIndex] = *page
+					lst = append(lst[:minIndex], lst[minIndex+1:]...)
+					lst = append(lst, *page)
+				} else {
+					inlist[lst[0].Reference] = false
+					lst = lst[1:]
+					lst = append(lst, *page)
+				}
+			} else {
+				lst = append(lst, *page)
+			}
+			inlist[pageKey] = true
+		} else {
+			for j, p := range lst {
+				if p.Reference == pageKey {
+					// move the page to the tail(head) of the list
+					p.Freq++
+					page = &p
+					lst = append(lst[:j], lst[j+1:]...)
+					lst = append(lst, *page)
+					break
+				}
+			}
+		}
+
+		for j := len(lst) - 1; j >= 0; j-- {
+			result += string(lst[j].Reference)
+		}
+
+		if pageFault {
+			result += "\tF"
+		}
+
+		result += "\n"
+	}
+
+	statics := fmt.Sprintf("Page Fault = %d  Page Replaces = %d  Page Frames = %d\n", pageFaultCount, pageReplaceCount, pageFrameNumber)
+
+	result += statics
+
+	return result
+
 }
 
 /*

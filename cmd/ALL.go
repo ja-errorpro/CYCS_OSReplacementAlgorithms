@@ -17,6 +17,7 @@ func AllCache(pageFrameNumber int, pageReferenceSequence string) string {
 	result += LRU_Cache(pageFrameNumber, pageReferenceSequence) + "\n"
 	result += LFU_FIFO_Cache(pageFrameNumber, pageReferenceSequence) + "\n"
 	result += MFU_FIFO_Cache(pageFrameNumber, pageReferenceSequence) + "\n"
+	result += LFU_LRU_Cache(pageFrameNumber, pageReferenceSequence)
 
 	return result
 }
