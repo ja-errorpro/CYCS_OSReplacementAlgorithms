@@ -13,6 +13,8 @@ func TestALLFile(t *testing.T) {
 		result := cmd.AllCache(pageFrameNumber, pageReferenceSequence)
 		excepted := ReadExceptedFile("../out_input1_method6_bak")
 		if result != excepted {
+			t.Logf("result: %s", result)
+			t.Logf("excepted: %s", excepted)
 			t.Errorf("Test failed with input1_method6")
 		}
 	})

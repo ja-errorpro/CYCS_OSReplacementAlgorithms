@@ -1,6 +1,7 @@
 package test
 
 import (
+	"bufio"
 	"fmt"
 	"log"
 	"os"
@@ -39,11 +40,19 @@ func ReadExceptedFile(fileName string) string {
 	}
 	defer fp.Close()
 
-	// should read to the end of the file
-	buf := make([]byte, 10240)
-	n, err := fp.Read(buf)
-	if err != nil {
-		log.Fatal(err)
+	// read to the end of the file, should ignore CRLF/LF
+	var excepted string
+	reader := bufio.NewReader(fp)
+
+	// read line by line
+	for {
+		var line []byte
+		line, _, err = reader.ReadLine()
+		if err != nil {
+			break
+		}
+		excepted += string(line) + "\n"
 	}
-	return string(buf[:n])
+
+	return excepted
 }
